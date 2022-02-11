@@ -23,16 +23,12 @@
 import { defineComponent }							from 'vue';
 import { Menu, MenuButton, MenuItem, MenuItems }	from '@headlessui/vue'
 import { ChevronDownIcon }							from '@heroicons/vue/solid'
-
-import { useStore }	from 'vuex'
-import { key }		from '@/store'
+import Communicator									from '@/assets/js/api/Communicator';
 
 export default defineComponent({
 	name: 'Namespace',
 	data() {
-		return {
-			currentNamespace: this.$store.state.currentNamespace || ''
-		};
+		return {};
 	},
 	components: {
 		Menu,
@@ -48,9 +44,13 @@ export default defineComponent({
 		}
 	},
 	methods: {
-		changeNamespace() {
-
+		async changeNamespace( event ) {
+			const newNamespace	= event.target.text;
+			await this.$store.dispatch( 'changeCurrentNamespace', newNamespace );
 		}
+	},
+	computed: {
+		currentNamespace() { return this.$store.state.currentNamespace; }
 	}
 });
 </script>
