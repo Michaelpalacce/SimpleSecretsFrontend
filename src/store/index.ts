@@ -2,7 +2,6 @@ import { createStore, Store } from 'vuex'
 import { InjectionKey } from "vue";
 import SimpleSecrets from "@/store/interfaces/simpleSecret";
 import Communicator from "@/assets/js/api/Communicator";
-import {type} from "@headlessui/vue/dist/test-utils/interactions";
 
 interface State {
 	currentNamespace: string;
