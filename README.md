@@ -1,4 +1,8 @@
-# frontend
+# Simple Secrets Frontend
+
+A simple SPA PWA web app. Runs on port 3000.
+
+When the app starts at the top you will be able to specify the URL to the simple secrets api, change it according to your distribution
 
 ## Project setup
 ```
@@ -15,5 +19,3 @@ npm run serve
 npm run build
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
