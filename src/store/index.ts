@@ -25,8 +25,10 @@ export const store	= createStore<State>({
 		changeCurrentNamespace( state, { newNamespace } ) { state.currentNamespace = newNamespace },
 		storeNamespacedSecrets( state, { namespace, secrets } ) { state.secrets[namespace]	= secrets; },
 		storeNamespacedSecretData( state, { namespace, newSecret } ) { state.secrets[namespace].forEach( secret => {
-			if ( secret.name === newSecret.name )
-				secret.data	= newSecret.data;
+			if ( secret.name === newSecret.name ) {
+				secret.data		= newSecret.data;
+				secret.version	= newSecret.version;
+			}
 		}) }
 	},
 	actions: {

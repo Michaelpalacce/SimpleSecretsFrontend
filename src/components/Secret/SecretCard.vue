@@ -9,9 +9,15 @@
 				{{ namespace }}
 			</p>
 		</div>
-		<div class="px-6 pb-2">
-			<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Version: {{ version }}</span>
+		<div class="flex">
+			<div class="px-6 pb-2 w-7/12">
+				<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Version: {{ version }}</span>
+			</div>
+			<div class="px-6 pb-2 w-5/12">
+				<span class="inline-block bg-red-500 text-white rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2 text-center w-24" @click="$emit( 'onClick' )">Delete</span>
+			</div>
 		</div>
+
 	</div>
 </template>
 
