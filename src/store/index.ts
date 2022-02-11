@@ -2,6 +2,7 @@ import { createStore, Store } from 'vuex'
 import { InjectionKey } from "vue";
 import SimpleSecrets from "@/store/interfaces/simpleSecret";
 import Communicator from "@/assets/js/api/Communicator";
+import {type} from "@headlessui/vue/dist/test-utils/interactions";
 
 interface State {
 	currentNamespace: string;
@@ -24,12 +25,33 @@ export const store	= createStore<State>({
 		updateNamespaces( state, { namespaces } ) { state.namespaces = namespaces },
 		changeCurrentNamespace( state, { newNamespace } ) { state.currentNamespace = newNamespace },
 		storeNamespacedSecrets( state, { namespace, secrets } ) { state.secrets[namespace]	= secrets; },
-		storeNamespacedSecretData( state, { namespace, newSecret } ) { state.secrets[namespace].forEach( secret => {
-			if ( secret.name === newSecret.name ) {
-				secret.data		= newSecret.data;
-				secret.version	= newSecret.version;
-			}
-		}) }
+		deleteNamespacedSecret( state, { namespace, name } ) {
+			state.secrets[namespace]	= state.secrets[namespace].filter( secret => {
+				return secret.name !== name;
+			});
+
+			if ( state.secrets[namespace].length === 0 )
+				state.namespaces	= state.namespaces.filter( currNamespace => currNamespace !== namespace );
+		},
+		storeNamespacedSecretData( state, { namespace, newSecret } ) {
+			if ( typeof state.secrets[namespace] === 'undefined' )
+				state.secrets[namespace]	= [];
+
+			if ( typeof state.namespaces !== 'undefined' && state.namespaces.indexOf( namespace ) === -1 )
+				state.namespaces.push( namespace );
+
+			let found	= false;
+			state.secrets[namespace].forEach( secret => {
+				if ( secret.name === newSecret.name ) {
+					secret.data		= newSecret.data;
+					secret.version	= newSecret.version;
+					found			= true;
+				}
+			});
+
+			if ( ! found )
+				state.secrets[namespace].push( newSecret );
+		}
 	},
 	actions: {
 		async changeCurrentNamespace({ state, commit, dispatch }, newNamespace ) {
@@ -60,6 +82,11 @@ export const store	= createStore<State>({
 			const response	= await communicator.getSecret( namespace, name );
 
 			commit( 'storeNamespacedSecretData', { namespace, newSecret: response.data } );
+		},
+		async deleteSecret({ commit, state }, { namespace, name }) {
+			await communicator.deleteSecret( namespace, name );
+
+			commit( 'deleteNamespacedSecret', { namespace, name } );
 		}
 	},
 	modules: {

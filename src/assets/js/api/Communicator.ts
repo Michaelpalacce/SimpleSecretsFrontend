@@ -61,4 +61,32 @@ export default class Communicator {
 
 		return response;
 	}
+
+	/**
+	 * @brief	Creates a new secret
+	 */
+	async createSecret( secret: any ): Promise<AxiosResponse<SimpleSecrets>> {
+		const response	= await axios.post( `${URL}/api/simplesecrets`, secret ).catch( ( error ) => {
+			return error;
+		});
+
+		if ( response.message )
+			throw response;
+
+		return response;
+	}
+
+	/**
+	 * @brief	Deletes an existing secret
+	 */
+	async deleteSecret( namespace: string, name: string, ): Promise<AxiosResponse<SimpleSecrets>> {
+		const response	= await axios.delete( `${URL}/api/simplesecrets/${namespace}/${name}` ).catch( ( error ) => {
+			return error;
+		});
+
+		if ( response.message )
+			throw response;
+
+		return response;
+	}
 }
