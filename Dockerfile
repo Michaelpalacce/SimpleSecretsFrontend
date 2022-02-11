@@ -7,7 +7,6 @@ RUN npm i && npm run build && npm prune --production && rm -rf src
 FROM node:14-alpine as base
 
 EXPOSE 3000
-ENV SERVER_CONFIG_PATH=/config
 WORKDIR /app
 
 COPY --from=builder /app /app
