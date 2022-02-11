@@ -1,6 +1,6 @@
 <template>
 	<Namespace class="absolute right-0" :namespaces="namespaces"></Namespace>
-<!--	<SecretCard name="mySecret" namespace="myNamespace"/>-->
+	<SecretCard name="mySecret" namespace="myNamespace"/>
 </template>
 
 <script lang="ts">
