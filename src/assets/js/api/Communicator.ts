@@ -9,6 +9,15 @@ export default class Communicator {
 	}
 
 	/**
+	 * @brief	Checks the health of the API by making a simple call and fails of error
+	 */
+	async checkHealth() {
+		const response	= await this.getAllSecrets().catch( e => e );
+
+		return response.status === 200;
+	}
+
+	/**
 	 * @brief	Sets a new url to use as base
 	 *
 	 * @param	newUrl

@@ -46,8 +46,8 @@ export default defineComponent({
 	},
 	methods: {
 		async refreshCurrent(){
-			await this.$store.dispatch( 'populateNamespaces' );
-			await this.$store.dispatch( 'populateSecretsForCurrentNamespace' );
+			await this.$store.dispatch( 'fetchNamespaces' );
+			await this.$store.dispatch( 'fetchSecretsForCurrentNamespace' );
 		},
 		async updateUrl() {
 			this.$store.commit( 'updateCurrentUrl', { newUrl: this.currentUrl } );
@@ -56,7 +56,7 @@ export default defineComponent({
 		async getSecret( target ) {
 			const namespace	= target.namespace;
 			const name		= target.name;
-			await this.$store.dispatch( 'populateSecret', { namespace, name } );
+			await this.$store.dispatch( 'fetchSecret', { namespace, name } );
 
 			this.modalSecret	= this.$store.getters.secret( namespace, name )
 			this.modalVisible	= true;

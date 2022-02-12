@@ -13,8 +13,6 @@
 </template>
 
 <script>
-import Communicator	from "@/assets/js/api/Communicator";
-
 export default {
 	name: "Modal",
 	data: function () {
@@ -31,9 +29,7 @@ export default {
 			const name			= this.name;
 			const data			= JSON.parse( this.data );
 			const type			= this.type;
-			const communicator	= new Communicator();
-			await communicator.createSecret( { name, namespace, data, type } );
-			await this.$store.dispatch( "populateSecret", { name, namespace } )
+			await this.$store.dispatch( "createSecret", { name, namespace, data, type } )
 
 			this.$emit( 'onSubmit' );
 		}

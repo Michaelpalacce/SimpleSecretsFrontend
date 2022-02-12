@@ -15,8 +15,6 @@
 </template>
 
 <script>
-import Communicator	from "@/assets/js/api/Communicator";
-
 export default {
 	name: "Modal",
 	data: function () {
@@ -34,9 +32,8 @@ export default {
 		async submit() {
 			const namespace		= this.secret.namespace;
 			const name			= this.secret.name;
-			const communicator	= new Communicator();
-			await communicator.updateSecret( namespace, name, JSON.parse( this.data ) );
-			await this.$store.dispatch( "populateSecret", { name, namespace } )
+			const data			= this.data;
+			await this.$store.dispatch( "updateSecret", { name, namespace, data } )
 
 			this.$emit( 'onSubmit' );
 		}

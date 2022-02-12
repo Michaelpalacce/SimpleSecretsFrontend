@@ -64,19 +64,23 @@ export const store		= createStore<State>({
 		async changeCurrentNamespace({ state, commit, dispatch }, newNamespace ) {
 			commit( "changeCurrentNamespace", { newNamespace } );
 			if ( typeof state.secrets[newNamespace] === 'undefined' )
-				dispatch( "populateSecrets", newNamespace );
+				dispatch( "fetchSecrets", newNamespace );
 		},
-		async populateSecrets({ state, commit }, namespace ) {
+
+		async fetchSecrets({ state, commit }, namespace ) {
 			const response				= await communicator.getSecretsForNamespace( namespace );
 			commit( "storeNamespacedSecrets", { namespace, secrets: response.data } );
 		},
-		async populateSecretsForCurrentNamespace({ state, dispatch }) {
+		async fetchSecretsForCurrentNamespace({ state, dispatch }) {
 			const namespace				= state.currentNamespace;
-			dispatch( "populateSecrets", namespace );
+			dispatch( "fetchSecrets", namespace );
 		},
-		async populateNamespaces({ commit }) {
+		async fetchNamespaces({ commit }) {
 			const response			= await communicator.getAllSecrets();
 			const secrets			= response.data;
+
+			if ( secrets.length === 0 )
+				return;
 
 			const namespaces		= [...new Set(secrets.map( secret => {
 					return secret.namespace;
@@ -85,10 +89,23 @@ export const store		= createStore<State>({
 
 			commit( 'updateNamespaces', { namespaces } );
 		},
-		async populateSecret({ commit, state }, { namespace, name }) {
+		async fetchSecret({ commit, state }, { namespace, name }) {
 			const response	= await communicator.getSecret( namespace, name );
 
 			commit( 'storeNamespacedSecretData', { namespace, newSecret: response.data } );
+		},
+
+		async updateSecret({ dispatch, state }, { namespace, name, data }) {
+			await communicator.updateSecret( namespace, name, JSON.parse( data ) );
+
+			dispatch( 'fetchSecret', { namespace, name } );
+		},
+
+		async createSecret({ dispatch, state }, secret: { namespace: string, name: string } ) {
+			const { namespace, name }	= secret;
+			await communicator.createSecret( secret );
+
+			dispatch( 'fetchSecret', { namespace, name } );
 		},
 		async deleteSecret({ commit, state }, { namespace, name }) {
 			await communicator.deleteSecret( namespace, name );
