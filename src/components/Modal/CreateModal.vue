@@ -7,12 +7,14 @@
 			<textarea v-model="data" class="mx-auto block p-5 text-left border shadow-lg mb-6 w-full" placeholder="Data (JSON)"/>
 
 			<button class="bg-green-500 px-7 py-2 ml-2 rounded-md text-md text-white font-semibold" @click="submit">Submit</button>
-			<button class="bg-red-500 px-7 py-2 ml-2 rounded-md text-md text-white font-semibold" @click="$emit( 'onClick' )">Close</button>
+			<button class="bg-red-500 px-7 py-2 ml-2 rounded-md text-md text-white font-semibold" @click="$emit( 'onClose' )">Close</button>
 		</div>
 	</div>
 </template>
 
 <script>
+let closeReference	= null;
+
 export default {
 	name: "Modal",
 	data: function () {
@@ -23,6 +25,14 @@ export default {
 			type: ''
 		}
 	},
+	created() {
+		closeReference	= this.close.bind( this );
+
+		document.addEventListener('keyup', closeReference );
+	},
+	unmounted() {
+		document.removeEventListener('keyup', closeReference );
+	},
 	methods: {
 		async submit() {
 			const namespace		= this.namespace;
@@ -32,6 +42,10 @@ export default {
 			await this.$store.dispatch( "createSecret", { name, namespace, data, type } )
 
 			this.$emit( 'onSubmit' );
+		},
+		async close( event ) {
+			if (event.keyCode === 27)
+				this.$emit( 'onClose' );
 		}
 	},
 }

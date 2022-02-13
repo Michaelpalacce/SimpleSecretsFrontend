@@ -14,8 +14,8 @@
 		<SecretCard v-for="secret in secrets" :name="secret.name" :namespace="secret.namespace" :version="secret.version" @clicked="getSecret" @onDelete="deleteSecret"/>
 	</div>
 
-	<UpdateModal v-if="modalVisible" :secret="modalSecret" @onClick="hideModal" @onSubmit="submitModal"/>
-	<CreateModal v-if="createModalVisible" :secret="modalSecret" @onClick="hideCreateModal" @onSubmit="submitCreateModal"/>
+	<UpdateModal v-if="modalVisible" :secret="modalSecret" @onClose="hideModal" @onSubmit="submitModal"/>
+	<CreateModal v-if="createModalVisible" :secret="modalSecret" @onClose="hideCreateModal" @onSubmit="submitCreateModal"/>
 </template>
 
 <script>
