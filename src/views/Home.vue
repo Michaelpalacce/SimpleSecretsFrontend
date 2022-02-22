@@ -11,7 +11,10 @@
 		<Namespace class="inline-block" :namespaces="namespaces"></Namespace>
 	</div>
 	<div class="grid grid-cols-1 gap-2 mx-auto lg:grid-cols-4 lg:gap-4 md:grid-cols-2 md:gap-4 mt-32 md:mt-12 p-2">
-		<SecretCard v-for="secret in secrets" :name="secret.name" :namespace="secret.namespace" :version="secret.version" @clicked="getSecret" @onDelete="deleteSecret"/>
+		<SecretCard v-for="secret in secrets"
+					:name="secret.name" :namespace="secret.namespace" :version="secret.version" :inUse="secret.inUse"
+					@clicked="getSecret" @onDelete="deleteSecret"
+		/>
 	</div>
 
 	<UpdateModal v-if="modalVisible" :secret="modalSecret" @onClose="hideModal" @onSubmit="submitModal"/>

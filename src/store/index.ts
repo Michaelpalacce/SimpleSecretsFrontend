@@ -79,7 +79,7 @@ export const store		= createStore<State>({
 			const response			= await communicator.getAllSecrets();
 			const secrets			= response.data;
 
-			if ( secrets.length === 0 )
+			if ( !secrets || secrets.length === 0 )
 				return;
 
 			const namespaces		= [...new Set(secrets.map( secret => {

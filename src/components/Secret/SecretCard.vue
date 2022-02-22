@@ -3,7 +3,10 @@
 		<div class="px-6 py-4">
 			<div class="flex">
 				<div class="flex-initial w-11/12 font-bold text-xl mb-2">{{ name }}</div>
-				<div class="flex-none w-4 h-4 mt-2 rounded-full bg-green-400 animate-pulse"></div>
+				<div
+					class="flex-none w-4 h-4 mt-2 rounded-full animate-pulse"
+					:class="`${inUse ? 'bg-green-400' : 'bg-red-500'}`"
+				></div>
 			</div>
 			<p class="text-gray-700 font-semibold">
 				{{ namespace }}
@@ -29,7 +32,11 @@ export default defineComponent({
 	props: {
 		name: String,
 		namespace: String,
-		version: String
+		version: String,
+		inUse: {
+			type: Boolean,
+			default: false
+		}
 	},
 	methods: {
 		onClick( event: any ) {
