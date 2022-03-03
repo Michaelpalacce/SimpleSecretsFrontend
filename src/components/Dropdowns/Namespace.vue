@@ -23,7 +23,6 @@
 import { defineComponent }							from 'vue';
 import { Menu, MenuButton, MenuItem, MenuItems }	from '@headlessui/vue'
 import { ChevronDownIcon }							from '@heroicons/vue/solid'
-import Communicator									from '@/assets/js/api/Communicator';
 
 export default defineComponent({
 	name: 'Namespace',
