@@ -6,7 +6,11 @@
 				Type:
 				<div class="inline-block my-5 text-xl mb-4 font-bold  ml-2" >{{ type }}</div>
 			</div>
-			<textarea v-model="data" class="mx-auto block p-5 text-left border shadow-lg mb-6 resize-y w-full" rows="15"></textarea>
+			<div class="text-left">
+				Version / latest {{ latestVersion }} /:
+				<input type="text" name="version" class="inline-block my-5 mb-4 ml-2 border-b border-black" v-model="version" />
+			</div>
+			<textarea :value="data" ref="secretData" class="mx-auto block p-5 text-left border shadow-lg mb-6 resize-y w-full" rows="15"></textarea>
 
 			<button class="bg-green-500 px-7 py-2 ml-2 rounded-md text-md text-white font-semibold" @click="submit">Submit</button>
 			<button class="bg-red-500 px-7 py-2 ml-2 rounded-md text-md text-white font-semibold" @click="$emit( 'onClose' )">Close</button>
@@ -21,8 +25,9 @@ export default {
 	name: "Modal",
 	data: function () {
 		return {
-			data: '',
-			type: ''
+			type: '',
+			version: 0,
+			latestVersion: 0
 		}
 	},
 	props: {
@@ -34,7 +39,7 @@ export default {
 		async submit() {
 			const namespace		= this.secret.namespace;
 			const name			= this.secret.name;
-			const data			= this.data;
+			const data			= this.$refs.secretData.value;
 			await this.$store.dispatch( "updateSecret", { name, namespace, data } )
 
 			this.$emit( 'onSubmit' );
@@ -45,15 +50,22 @@ export default {
 		}
 	},
 	created() {
-		const data		= this.secret;
-		this.data		= JSON.stringify( typeof data.data !== 'undefined' ? data.data[data.version] : {}, null, 4 );
-		this.type		= data.type;
-		closeReference	= this.close.bind( this );
+		this.type			= this.secret.type;
+		const version		= parseInt( this.secret.version );
+		this.version		= version;
+		this.latestVersion	= version;
+		closeReference		= this.close.bind( this );
 
 		document.addEventListener('keyup', closeReference );
 	},
 	unmounted() {
 		document.removeEventListener('keyup', closeReference );
+	},
+	computed: {
+		data: function () {
+			const data	= this.secret;
+			return JSON.stringify( typeof data.data !== 'undefined' ? data.data[this.version] : {}, null, 4 )
+		}
 	}
 
 }

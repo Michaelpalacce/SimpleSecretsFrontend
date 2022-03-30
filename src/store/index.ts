@@ -14,7 +14,7 @@ interface State {
 export const key: InjectionKey<Store<State>>	= Symbol()
 
 const STORAGE_URL_EKY	= "URL";
-const currentUrl		= localStorage.getItem( STORAGE_URL_EKY ) || 'simplesecrets-api.simplesecrets.svc.cluster.local';
+const currentUrl		= localStorage.getItem( STORAGE_URL_EKY ) || window.location.origin;
 const communicator		= new Communicator( currentUrl );
 
 export const store		= createStore<State>({
@@ -26,6 +26,7 @@ export const store		= createStore<State>({
 	},
 	mutations: {
 		updateCurrentUrl( state, { newUrl } ) {
+			newUrl	= newUrl.replace( /\/+$/, '' );
 			localStorage.setItem( STORAGE_URL_EKY, newUrl );
 			communicator.setUrl( newUrl );
 		},
