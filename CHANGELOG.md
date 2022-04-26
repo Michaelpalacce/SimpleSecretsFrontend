@@ -1,3 +1,6 @@
+## [1.0.0]
+* Now proxying requests to the API instead.
+
 ## [0.10.0]
 * Some changes to accommodate Linux development
 * Added ability to switch between different versions

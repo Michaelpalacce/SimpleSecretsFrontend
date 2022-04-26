@@ -9,6 +9,14 @@ This is pretty much a static webpage that is being served, no persistent storage
 ## API backend:
 https://github.com/Michaelpalacce/SimpleSecrets
 
+## Env Variables
+
+| Variable | Description                                         | Default                         |
+|----------|-----------------------------------------------------|---------------------------------|
+| APP_PORT | The Port on which the app will run                  | 3000                            |
+| API_URL  | The kubernetes DNS record for the simplesecrets api | simplesecrets-api.simplesecrets |
+
+
 ## Screenshots
 Home page:
 <img src="resources/example-1.png" alt="">

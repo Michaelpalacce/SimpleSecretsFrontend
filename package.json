@@ -28,5 +28,8 @@
     "vue-cli-plugin-tailwind": "~2.2.18",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
+  },
+  "dependencies": {
+    "event_request": "^35.1.0"
   }
 }
