@@ -1,5 +1,7 @@
 # Simple Secrets Frontend
 
+## DEPRECATED ( moved to the API for tighter security )
+
 A simple SPA PWA web app. Runs on port 3000.
 
 When the app starts at the top you will be able to specify the URL to the simple secrets api, change it according to your distribution.
